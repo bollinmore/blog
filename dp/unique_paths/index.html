@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>55. Jump Game - SuperQ</title>
+        <title>62. Unique Paths - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -59,9 +59,9 @@
                   
 <a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="./" class="dropdown-item active">55. Jump Game</a>
+<a href="../jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
+<a href="./" class="dropdown-item active">62. Unique Paths</a>
                   
 <a href="../linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
                 </div>
@@ -91,37 +91,93 @@
     <li class="breadcrumb-item">Dynamic Programming</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">55. Jump Game</li>
+    <li class="breadcrumb-item active" aria-current="page">62. Unique Paths</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game">Jump Game</h1>
-<p><a href="https://leetcode.com/problems/jump-game">Source</a>  </p>
-<p>You are given an integer array nums.<br />
-You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
-<p>Return true if you can reach the last index, or false otherwise.</p>
+<h1 id="62-unique-paths">62. Unique Paths</h1>
+<p><a href="https://leetcode.com/problems/unique-paths/">Source</a>  </p>
+<p>There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). <br />
+The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). <br />
+The robot can only move either down or right at any point in time.<br />
+Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.<br />
+The test cases are generated so that the answer will be less than or equal to 2 * 109.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 105</li>
+<li>1 &lt;= m, n &lt;= 100</li>
 </ul>
-<h2 id="concept">Concept</h2>
-<p>The idea is to iterate entire loop and set variable <code>reach</code> by <strong>max(reach, i+nums[i])</strong>, when the indexer <code>i</code> exceed <code>reach</code> which means we couldn't jump to the end with current value.  </p>
-<h2 id="code">Code</h2>
+<h2 id="concept">Concept:</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28</td>
+<td>21</td>
+<td>15</td>
+<td>10</td>
+<td>6</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>6</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>The idea is is to <strong>solve sub problem</strong> start from the bottom-right:  </p>
+<ul>
+<li>Create a 2D array to hold every possible path to the desitination.</li>
+<li>Set the value of bottom row to all <strong>1</strong> because there's only one way to each cell.</li>
+<li>Sum up the value in right &amp; bottom of each cell =&gt; It shows how much ways to the destination starting from current cell.</li>
+<li>We'd get final answer at <code>grid[0][0]</code></li>
+</ul>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(m*n): We iterate the table, the size of table is m rows multiplies n * columns.</p>
+<p><strong>Space Complexity</strong>  </p>
+<p>O(n): We use a vector to hold the date of previous row, and update it when we finish iterating current row.</p>
+<h2 id="code">Code:</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    bool canJump(vector&lt;int&gt;&amp; nums) {
-        /** 2022/1/6 -- O(N), O(1); Greedy */
-        int n = nums.size();
-        if (n == 1) return true;
+    int uniquePaths(int m, int n) {
+        /** 2022/1/6 -- 7ms, 6.3mb; O(m*n), O(n); DP */
+        vector&lt;int&gt; vx(n, 1); // n * 1
+        for (int i=0; i&lt;m-1; i++) { // Because we've set the bottom row to all 1
+            vector&lt;int&gt; vNew(n, 1); // Since we want the last element become 1
+            for (int j=n-2; j&gt;=0; j--) { // Because the last column is always 1
+                vNew[j] = vNew[j+1] + vx[j];
+            }
 
-        int i = 0;
-        for (int reach=0; i&lt;n &amp;&amp; i&lt;=reach; i++) { // We add `i&lt;=reach` to let i escape from loop earlier
-            reach = max(reach, i+nums[i]);
+            vx.assign(vNew.begin(), vNew.end());
         }
 
-        return i == n;
+        return vx[0];
     }
 };
 </code></pre>
@@ -151,12 +207,15 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game">Jump Game</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#62-unique-paths">62. Unique Paths</a></li>
                 <li class="nav-item">
-                    <a href="#concept" class="nav-link">Concept</a>
+                    <a href="#concept" class="nav-link">Concept:</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#code" class="nav-link">Code</a>
+                    <a href="#complexity" class="nav-link">Complexity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#code" class="nav-link">Code:</a>
                 </li>
         </ul>
     </div>

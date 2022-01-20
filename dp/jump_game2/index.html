@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>55. Jump Game - SuperQ</title>
+        <title>45. Jump Game II - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,9 +57,9 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Dynamic Programming">Dynamic Programming <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Dynamic Programming">
                   
-<a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
+<a href="./" class="dropdown-item active">45. Jump Game II</a>
                   
-<a href="./" class="dropdown-item active">55. Jump Game</a>
+<a href="../jump_game/" class="dropdown-item">55. Jump Game</a>
                   
 <a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
@@ -91,39 +91,25 @@
     <li class="breadcrumb-item">Dynamic Programming</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">55. Jump Game</li>
+    <li class="breadcrumb-item active" aria-current="page">45. Jump Game II</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game">Jump Game</h1>
-<p><a href="https://leetcode.com/problems/jump-game">Source</a>  </p>
-<p>You are given an integer array nums.<br />
-You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
-<p>Return true if you can reach the last index, or false otherwise.</p>
+<h1 id="jump-game-ii">Jump Game II</h1>
+<p><a href="https://leetcode.com/problems/jump-game-ii/">Source</a>  </p>
+<p>Given an array of non-negative integers nums, you are initially positioned at the first index of the array.<br />
+Each element in the array represents your maximum jump length at that position.<br />
+Your goal is to reach the last index in the minimum number of jumps.<br />
+You can assume that you can always reach the last index.  </p>
 <p><strong>Constraints</strong></p>
 <ul>
 <li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 105</li>
+<li>0 &lt;= nums[i] &lt;= 1000</li>
 </ul>
-<h2 id="concept">Concept</h2>
-<p>The idea is to iterate entire loop and set variable <code>reach</code> by <strong>max(reach, i+nums[i])</strong>, when the indexer <code>i</code> exceed <code>reach</code> which means we couldn't jump to the end with current value.  </p>
-<h2 id="code">Code</h2>
-<pre><code class="language-c++">class Solution {
-public:
-    bool canJump(vector&lt;int&gt;&amp; nums) {
-        /** 2022/1/6 -- O(N), O(1); Greedy */
-        int n = nums.size();
-        if (n == 1) return true;
-
-        int i = 0;
-        for (int reach=0; i&lt;n &amp;&amp; i&lt;=reach; i++) { // We add `i&lt;=reach` to let i escape from loop earlier
-            reach = max(reach, i+nums[i]);
-        }
-
-        return i == n;
-    }
-};
+<h2 id="concept">Concept:</h2>
+<h2 id="code">Code:</h2>
+<pre><code class="language-c++">
 </code></pre>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
@@ -151,12 +137,12 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game">Jump Game</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#jump-game-ii">Jump Game II</a></li>
                 <li class="nav-item">
-                    <a href="#concept" class="nav-link">Concept</a>
+                    <a href="#concept" class="nav-link">Concept:</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#code" class="nav-link">Code</a>
+                    <a href="#code" class="nav-link">Code:</a>
                 </li>
         </ul>
     </div>
