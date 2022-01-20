@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>55. Jump Game - SuperQ</title>
+        <title>64. Minimum Path Sum - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -59,11 +59,11 @@
                   
 <a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="./" class="dropdown-item active">55. Jump Game</a>
+<a href="../jump_game/" class="dropdown-item">55. Jump Game</a>
                   
 <a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
-<a href="../minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
+<a href="./" class="dropdown-item active">64. Minimum Path Sum</a>
                   
 <a href="../unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
                   
@@ -95,37 +95,61 @@
     <li class="breadcrumb-item">Dynamic Programming</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">55. Jump Game</li>
+    <li class="breadcrumb-item active" aria-current="page">64. Minimum Path Sum</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game">Jump Game</h1>
-<p><a href="https://leetcode.com/problems/jump-game">Source</a>  </p>
-<p>You are given an integer array nums.<br />
-You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
-<p>Return true if you can reach the last index, or false otherwise.</p>
+<h1 id="64-minimum-path-sum">64. Minimum Path Sum</h1>
+<p><a href="https://leetcode.com/problems/minimum-path-sum/">Source</a>  </p>
+<p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.</p>
+<p>Note: You can only move either down or right at any point in time.</p>
+<p><img alt="" src="https://assets.leetcode.com/uploads/2020/11/05/minpath.jpg" /></p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 105</li>
+<li>m == grid.length</li>
+<li>n == grid[i].length</li>
+<li>1 &lt;= m, n &lt;= 200</li>
+<li>0 &lt;= grid[i][j] &lt;= 100</li>
 </ul>
 <h2 id="concept">Concept</h2>
-<p>The idea is to iterate entire loop and set variable <code>reach</code> by <strong>max(reach, i+nums[i])</strong>, when the indexer <code>i</code> exceed <code>reach</code> which means we couldn't jump to the end with current value.  </p>
+<p>The idea is similar to <code>Unique Paths</code> problem, but we use a two dimension array with size m+1 x n+1. The reason that adding one to m &amp; n is to compare value between extended cell with incoming grid. What we do to find out the solution is implement as below:  </p>
+<ul>
+<li>Create a two dimension array <code>a[m+1][n+1]</code></li>
+<li>Initialize the last row and column to all <code>INT_MAX</code>. (Here is a common straegy to find out the minimum from two values.)</li>
+<li>Set <code>a[m][n-1]</code> to <strong>zero</strong> because we want to <strong>get the smallest value</strong> in the first time.</li>
+<li>Iterate cell starting from the last cell in the grid.</li>
+<li>Find out the smaller value from the two adjacent nodes(right/down) and plus current cell. Repeat this step until we reach the first cell in the grid.</li>
+<li>The final answer is in <code>a[0][0]</code></li>
+</ul>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(m*n): We iterate the table, the size of table is m rows multiplies n * columns.</p>
+<p><strong>Space Complexity</strong>  </p>
+<p>O(m*n): An extra space to hold the value when calculating the minimum path.</p>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    bool canJump(vector&lt;int&gt;&amp; nums) {
-        /** 2022/1/6 -- O(N), O(1); Greedy */
-        int n = nums.size();
-        if (n == 1) return true;
+    int minPathSum(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
+        /** 2022/1/7 -- 8ms, 9.8mb; O(m*n), O(m*n); DP, Copy cat */
+        int m = grid.size(), n = grid[0].size();
 
-        int i = 0;
-        for (int reach=0; i&lt;n &amp;&amp; i&lt;=reach; i++) { // We add `i&lt;=reach` to let i escape from loop earlier
-            reach = max(reach, i+nums[i]);
+        int rec[m+1][n+1];
+        for (int i=0; i&lt;n; i++)
+            rec[m][i] = INT_MAX;
+
+        for (int i=0; i&lt;m; i++) 
+            rec[i][n] = INT_MAX;
+
+        rec[m][n-1] = 0; // Either `rec[m][n-1] = 0` or `rec[m-1][n] = 0` could let the min() work.
+
+        for (int i=m-1; i&gt;=0; i--) {
+            for (int j=n-1; j&gt;=0; j--) {
+                rec[i][j] = grid[i][j] + min(rec[i+1][j], rec[i][j+1]);
+            }
         }
 
-        return i == n;
+        return rec[0][0];
     }
 };
 </code></pre>
@@ -155,9 +179,12 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game">Jump Game</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#64-minimum-path-sum">64. Minimum Path Sum</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#complexity" class="nav-link">Complexity</a>
                 </li>
                 <li class="nav-item">
                     <a href="#code" class="nav-link">Code</a>
