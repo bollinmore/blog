@@ -8,6 +8,7 @@ nav:
     - 55. Jump Game: dp/jump_game.md
     - 62. Unique Paths: dp/unique_paths.md
     - 64. Minimum Path Sum: dp/minimum_path_sum.md
+    - 96. Unique Binary Search Trees: dp/unique_binary_search_trees.md
     - 142. Linked List Cycle II: dp/linked_list_cycle2.md
 theme:
     name: bootstrap4
