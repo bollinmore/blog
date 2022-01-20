@@ -1,19 +1,22 @@
 # Jump Game
 
-You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+[Source](https://leetcode.com/problems/jump-game)  
+
+You are given an integer array nums.  
+You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
 
 Return true if you can reach the last index, or false otherwise.
 
-## Constraints:
+**Constraints**
 
 * 1 <= nums.length <= 104
 * 0 <= nums[i] <= 105
 
-## Concept:
+## Concept
 
 The idea is to iterate entire loop and set variable `reach` by **max(reach, i+nums[i])**, when the indexer `i` exceed `reach` which means we couldn't jump to the end with current value.  
     
-## Code:
+## Code
 ```c++
 class Solution {
 public:

@@ -4,6 +4,9 @@ nav:
   - Home: index.md
   - About: about.md
   - Dynamic Programming:
+    - 45. Jump Game II: dp/jump_game2.md
     - 55. Jump Game: dp/jump_game.md
+    - 62. Unique Paths: dp/unique_paths.md
+    - 142. Linked List Cycle II: dp/linked_list_cycle2.md
 theme:
     name: bootstrap4
