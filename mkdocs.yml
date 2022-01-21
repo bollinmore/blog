@@ -10,5 +10,7 @@ nav:
     - 64. Minimum Path Sum: dp/minimum_path_sum.md
     - 96. Unique Binary Search Trees: dp/unique_binary_search_trees.md
     - 142. Linked List Cycle II: dp/linked_list_cycle2.md
+  - Array:
+    - 134. Gas Station: array/gas_station.md
 theme:
     name: bootstrap4
