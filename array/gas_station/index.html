@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>96. Unique Binary Search Trees - SuperQ</title>
+        <title>134. Gas Station - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -53,28 +53,28 @@
               <li >
                 <a class="nav-link" href="../../about/">About</a>
               </li>
-              <li class="nav-item dropdown active">
+              <li class="nav-item dropdown">
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Dynamic Programming">Dynamic Programming <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Dynamic Programming">
                   
-<a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
+<a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="../jump_game/" class="dropdown-item">55. Jump Game</a>
+<a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
+<a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
-<a href="../minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
+<a href="../../dp/minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
                   
-<a href="./" class="dropdown-item active">96. Unique Binary Search Trees</a>
+<a href="../../dp/unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
                   
-<a href="../linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
+<a href="../../dp/linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
                 </div>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown active">
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Array">Array <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Array">
                   
-<a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
+<a href="./" class="dropdown-item active">134. Gas Station</a>
                 </div>
               </li>
             </ul>
@@ -99,33 +99,34 @@
   <ol class="breadcrumb">
     
     
-    <li class="breadcrumb-item">Dynamic Programming</li>
+    <li class="breadcrumb-item">Array</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">96. Unique Binary Search Trees</li>
+    <li class="breadcrumb-item active" aria-current="page">134. Gas Station</li>
   </ol>
 </nav>
 
 
-<h1 id="96-unique-binary-search-trees">96. Unique Binary Search Trees</h1>
-<p><a href="https://leetcode.com/problems/unique-binary-search-trees/">Source</a>  </p>
-<p>Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.</p>
-<p><img alt="" src="https://assets.leetcode.com/uploads/2021/01/18/uniquebstn3.jpg" /></p>
+<h1 id="134-gas-station">134. Gas Station</h1>
+<p><a href="https://leetcode.com/problems/gas-station/">Source</a>  </p>
+<p>There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].</p>
+<p>You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.</p>
+<p>Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= n &lt;= 19</li>
+<li>gas.length == n</li>
+<li>cost.length == n</li>
+<li>1 &lt;= n &lt;= 105</li>
+<li>0 &lt;= gas[i], cost[i] &lt;= 104</li>
 </ul>
 <h2 id="concept">Concept:</h2>
-<p>The idea is to <strong>solve sub problem</strong> in dynamic programming.<br />
-When <code>n = 0</code> or <code>n = 1</code>, there's 1 possible BST exists. But when the <code>n &gt;= 2</code> that means we could break down this problem into sub problem as below:  </p>
+<p><strong>One pass algorithm</strong><br />
+The basic idea is:</p>
 <ul>
-<li>n==2: <strong>left nodes + root + right nodes</strong></li>
+<li>The total gas must larger than total cost, otherwise there is no way to travel around the circuit.</li>
+<li>If the tank is less <strong>zero</strong>, we move the starting point to the next station.</li>
+<li>Why one pass works is because we assuming the oil is sufficient so we can always reset the starting point if <code>tank + gas - cost &lt; 0</code></li>
 </ul>
-<pre><code>   2       1
-  /   or    \
- 1           2
-</code></pre>
-<p>So we can turn this problem into <strong>Find out the combination</strong> while iterate the nodes, the formula of each combination will be <code>numTrees(left) * numTrees(right)</code>, then we can sum up the number because we want to know how many unique BST exists for N.</p>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
 <p>O(n^2): We have a nested for-loop inside because we need to move root node.</p>
@@ -134,21 +135,23 @@ When <code>n = 0</code> or <code>n = 1</code>, there's 1 possible BST exists. Bu
 <h2 id="code">Code:</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    int numTrees(int n) {
-        if (n&lt;=1) return 1;
-        vector&lt;int&gt; dp(n+1, 1); // 0-&gt; 1; 1-&gt;1
+    int canCompleteCircuit(vector&lt;int&gt;&amp; gas, vector&lt;int&gt;&amp; cost) {
+        /** 2022/1/21 -- O(n), O(1); One pass */
+        int tank = 0;
+        int start = 0, total_gas = 0, total_cost = 0;
 
-        for (int nodes=2; nodes&lt;=n; nodes++) {
-            int total = 0;
-            for (int root=1; root&lt;=nodes; root++) {
-                int left = root - 1;
-                int right = nodes - root;
-                total += dp[left] * dp[right];
+        for (int i=0; i&lt;gas.size(); i++) {
+            total_gas += gas[i];
+            total_cost += cost[i];
+            tank += (gas[i] - cost[i]);
+
+            if (tank &lt; 0) { // 
+                start = i+1;
+                tank = 0;
             }
-            dp[nodes] = total;
         }
 
-        return dp.back();
+        return (total_gas &gt;= total_cost) ? start : -1;
     }
 };
 </code></pre>
@@ -178,7 +181,7 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#96-unique-binary-search-trees">96. Unique Binary Search Trees</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#134-gas-station">134. Gas Station</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept:</a>
                 </li>
