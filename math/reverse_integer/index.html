@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>55. Jump Game - SuperQ</title>
+        <title>7. Reverse Integer - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,21 +57,21 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
+<a href="../add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
+<a href="./" class="dropdown-item active">7. Reverse Integer</a>
                   
-<a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
+<a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="./" class="dropdown-item active">55. Jump Game</a>
+<a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
+<a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
-<a href="../minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
+<a href="../../dp/minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
                   
-<a href="../unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
+<a href="../../dp/unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
                   
-<a href="../linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
+<a href="../../dp/linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                 </div>
@@ -108,37 +108,58 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">55. Jump Game</li>
+    <li class="breadcrumb-item active" aria-current="page">7. Reverse Integer</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game">Jump Game</h1>
-<p><a href="https://leetcode.com/problems/jump-game">Source</a>  </p>
-<p>You are given an integer array nums.<br />
-You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
-<p>Return true if you can reach the last index, or false otherwise.</p>
+<h1 id="7-reverse-integer">7. Reverse Integer</h1>
+<p><a href="https://leetcode.com/problems/reverse-integer/">Source</a>  </p>
+<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.</p>
+<p>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 105</li>
+<li>-231 &lt;= x &lt;= 231 - 1</li>
 </ul>
 <h2 id="concept">Concept</h2>
-<p>The idea is to iterate entire loop and set variable <code>reach</code> by <strong>max(reach, i+nums[i])</strong>, when the indexer <code>i</code> exceed <code>reach</code> which means we couldn't jump to the end with current value.  </p>
+<p>The limitation that you could NOT use a <strong>long</strong> or <strong>long long</strong> to store a temporary data, so we might consider the edge case that could prevent overflow or underflow during checking each digit, the algorithm will be:  </p>
+<ul>
+<li>Detect the input value is negative or not and use a flag to hold it.</li>
+<li>Set the absolute value of <code>x</code> to <code>y</code> to make the codes easy to implement.</li>
+<li>Check the <code>y&gt;0</code> iterately and get remaining <code>r</code>.</li>
+<li>Calculate the temporary answer by <code>v = v*10 +r</code>, but the key point is:</li>
+<li>if <code>v &gt; INT_MAX/10</code>, return 0</li>
+<li>if <code>v == INT_MAX/10 &amp;&amp; r &gt; 7</code>, return 0</li>
+<li>Return the correct answer with previous sign flag.</li>
+</ul>
+<p><strong>Why we need to return 0 in some condition?</strong> It's because any number larger than INT_MAX/10 cannot be multipied by 10 or it would get overflow exception.</p>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(log(n)): It's roughly equal log 10 (n).</p>
+<p><strong>Space Complexity</strong>  </p>
+<p>O(1)</p>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    bool canJump(vector&lt;int&gt;&amp; nums) {
-        /** 2022/1/6 -- O(N), O(1); Greedy */
-        int n = nums.size();
-        if (n == 1) return true;
+    int reverse(int x) {
+        int v=0;
+        int sign = x&gt;=0;
+        int y = abs(x);
 
-        int i = 0;
-        for (int reach=0; i&lt;n &amp;&amp; i&lt;=reach; i++) { // We add `i&lt;=reach` to let i escape from loop earlier
-            reach = max(reach, i+nums[i]);
+        while (y&gt;0) {
+            int r = y%10;
+
+            if (v &gt; INT_MAX/10) // v &gt;= 214748365
+                return 0;
+
+            if (v==INT_MAX/10 &amp;&amp; r&gt;7) // v &gt;= 214748364 &amp;&amp; r &gt; 7
+                return 0;
+
+            v = v*10 + r;
+            y /= 10;
         }
 
-        return i == n;
+        return sign ? v : 0-v;
     }
 };
 </code></pre>
@@ -168,9 +189,12 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game">Jump Game</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#7-reverse-integer">7. Reverse Integer</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#complexity" class="nav-link">Complexity</a>
                 </li>
                 <li class="nav-item">
                     <a href="#code" class="nav-link">Code</a>
