@@ -13,6 +13,7 @@ nav:
     - 96. Unique Binary Search Trees: dp/unique_binary_search_trees.md
     - 142. Linked List Cycle II: dp/linked_list_cycle2.md
     - 134. Gas Station: array/gas_station.md
+    - 292. Nim Game: math/nim_game.md
   - Code Snippet:
     - Generate random negative integer: snippet/random_negative_int.md
 
