@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Generate random negative integer - SuperQ</title>
+        <title>414. Third Maximum Number - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -53,13 +53,13 @@
               <li >
                 <a class="nav-link" href="../../about/">About</a>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown active">
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
+<a href="../add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
+<a href="../reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
 <a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
@@ -75,16 +75,16 @@
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
-<a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
+<a href="../nim_game/" class="dropdown-item">292. Nim Game</a>
                   
-<a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
+<a href="./" class="dropdown-item active">414. Third Maximum Number</a>
                 </div>
               </li>
-              <li class="nav-item dropdown active">
+              <li class="nav-item dropdown">
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Code Snippet">Code Snippet <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Code Snippet">
                   
-<a href="./" class="dropdown-item active">Generate random negative integer</a>
+<a href="../../snippet/random_negative_int/" class="dropdown-item">Generate random negative integer</a>
                 </div>
               </li>
             </ul>
@@ -109,16 +109,58 @@
   <ol class="breadcrumb">
     
     
-    <li class="breadcrumb-item">Code Snippet</li>
+    <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">Generate random negative integer</li>
+    <li class="breadcrumb-item active" aria-current="page">414. Third Maximum Number</li>
   </ol>
 </nav>
 
 
-<h1 id="generate-random-number-contains-negative-values">Generate random number contains negative values</h1>
-<pre><code class="language-c++">    int a = (rand() % 2000) - 1000; // -1000 ~ 999
+<h1 id="414-third-maximum-number">414. Third Maximum Number</h1>
+<p><a href="https://leetcode.com/problems/third-maximum-number/">Source</a>  </p>
+<p>Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.</p>
+<p><strong>Follow up: Can you find an O(n) solution?</strong></p>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 104</li>
+<li>-231 &lt;= nums[i] &lt;= 231 - 1</li>
+</ul>
+<h2 id="concept">Concept</h2>
+<p>The idea is to find out the top three numbers in one pass algorithm, but we need to take care of the 3rd largest number might <strong>INT_MIN</strong>.<br />
+So we use <code>long long</code> as the data type of a vector, and intialize its data to <code>LLONG_MIN</code>.  </p>
+<ul>
+<li>Create a vector <code>vector&lt;long long&gt; vx(3, LLONG_MIN)</code></li>
+<li>Iterately compare the number between <code>nums</code> and <code>vx</code></li>
+<li>We need to keep the order inside <code>vx</code> if we find a number is larger than any digit in <code>vx</code></li>
+<li>Since we initialized data to LLONG_MIN previosuly, so we can return <code>vx[0]</code>(max) if <code>vx[2]</code> is LLONG_MIN which means there's no 3rd biggest number exist.</li>
+</ul>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(n)</p>
+<p><strong>Space Complexity</strong>  </p>
+<p>O(1)</p>
+<h2 id="code">Code</h2>
+<pre><code class="language-c++">class Solution {
+public:
+    int thirdMax(vector&lt;int&gt;&amp; nums) {
+        vector&lt;long long&gt; vx(3, LLONG_MIN);
+
+        for (int i=0; i&lt;nums.size(); i++) {
+            if (find(vx.begin(), vx.end(), nums[i]) != vx.end())
+                continue;
+
+            if (nums[i] &gt; vx[0])
+                vx = {nums[i], vx[0], vx[1]};
+            else if (nums[i] &gt; vx[1])
+                vx = {vx[0], nums[i], vx[1]};
+            else if (nums[i] &gt; vx[2])
+                vx = {vx[0], vx[1], nums[i]};
+        }
+
+        return vx[2]==LLONG_MIN ? vx[0] : vx[2];
+    }
+};
 </code></pre>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
@@ -146,7 +188,16 @@
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#generate-random-number-contains-negative-values">Generate random number contains negative values</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#414-third-maximum-number">414. Third Maximum Number</a></li>
+                <li class="nav-item">
+                    <a href="#concept" class="nav-link">Concept</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#complexity" class="nav-link">Complexity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#code" class="nav-link">Code</a>
+                </li>
         </ul>
     </div>
 </div></div>
