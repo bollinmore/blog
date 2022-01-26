@@ -69,6 +69,8 @@
                   
 <a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
+<a href="../../hash_table/group_anagrams/" class="dropdown-item">49. Group Anagrams</a>
+                  
 <a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
 <a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
@@ -145,8 +147,9 @@
 </ul>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
-<p>O(n^2): </p>
+<p>O(nlogn + nlogn) = O(nlogn): Where the outer loop has complexity O(n) and inner loop has complexity (logn). The sorting has complexity O(nlogn)</p>
 <p><strong>Space Complexity</strong>  </p>
+<p>O(1): Constant memory.</p>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
