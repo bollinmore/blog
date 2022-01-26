@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>55. Jump Game - SuperQ</title>
+        <title>16. 3Sum Closest - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -63,21 +63,21 @@
                   
 <a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
-<a href="../../two_pointers/3Sum/" class="dropdown-item">15. 3Sum</a>
+<a href="../3Sum/" class="dropdown-item">15. 3Sum</a>
                   
-<a href="../../two_pointers/3Sum_closest/" class="dropdown-item">16. 3Sum Closest</a>
+<a href="./" class="dropdown-item active">16. 3Sum Closest</a>
                   
-<a href="../jump_game2/" class="dropdown-item">45. Jump Game II</a>
+<a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="./" class="dropdown-item active">55. Jump Game</a>
+<a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
+<a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
-<a href="../minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
+<a href="../../dp/minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
                   
-<a href="../unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
+<a href="../../dp/unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
                   
-<a href="../linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
+<a href="../../dp/linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
@@ -118,37 +118,58 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">55. Jump Game</li>
+    <li class="breadcrumb-item active" aria-current="page">16. 3Sum Closest</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game">Jump Game</h1>
-<p><a href="https://leetcode.com/problems/jump-game">Source</a>  </p>
-<p>You are given an integer array nums.<br />
-You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.</p>
-<p>Return true if you can reach the last index, or false otherwise.</p>
+<h1 id="16-3sum-closest">16. 3Sum Closest</h1>
+<p><a href="https://leetcode.com/problems/3sum-closest/">Source</a>  </p>
+<p>Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.</p>
+<p>Return the sum of the three integers.</p>
+<p>You may assume that each input would have exactly one solution.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 105</li>
+<li>3 &lt;= nums.length &lt;= 1000</li>
+<li>-1000 &lt;= nums[i] &lt;= 1000</li>
+<li>-104 &lt;= target &lt;= 104</li>
 </ul>
 <h2 id="concept">Concept</h2>
-<p>The idea is to iterate entire loop and set variable <code>reach</code> by <strong>max(reach, i+nums[i])</strong>, when the indexer <code>i</code> exceed <code>reach</code> which means we couldn't jump to the end with current value.  </p>
+<p>This problem is similar to <em>3 Sum</em>, so we could solve it with <em>Two Pointers</em> strategy, the algorithm will be:  </p>
+<ul>
+<li>Sort the input array so that we will adjust the sum by moving left/right pointers.</li>
+<li>Initialize variable <code>cloeset</code> as the sum of first 3 values because we know there will be at least 3 elements in the array.</li>
+<li>Note that we can't set <code>cloeset = INT_MAX</code> because it'd raise overflow exception when the target is negative during the statement <code>abs(closest-target)</code>.</li>
+<li>Then we iterately compare the sum with target by moving left/right pointers.</li>
+<li>Re-assign closest to sum when we got a smaller answer exist.</li>
+</ul>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(n^2): </p>
+<p><strong>Space Complexity</strong>  </p>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    bool canJump(vector&lt;int&gt;&amp; nums) {
-        /** 2022/1/6 -- O(N), O(1); Greedy */
-        int n = nums.size();
-        if (n == 1) return true;
+    int threeSumClosest(vector&lt;int&gt;&amp; nums, int target) {
+        sort(nums.begin(), nums.end());
+        int closest = nums[0] + nums[1] + nums[2]; // nums.size() &gt;= 3 &amp;&amp; cannot be INT_MAX since abs(closest-target) may cause overflow with case [1,1,1,1] -100
+        int len = nums.size();
 
-        int i = 0;
-        for (int reach=0; i&lt;n &amp;&amp; i&lt;=reach; i++) { // We add `i&lt;=reach` to let i escape from loop earlier
-            reach = max(reach, i+nums[i]);
+        for (int i=0; i&lt;len-2; i++) {
+            int l = i+1, r=len-1;
+
+            while (l&lt;r) {
+                int sum = nums[i]+nums[l]+nums[r];
+
+                if (sum &gt; target) r--;
+                else l++;    
+
+                if (abs(sum-target) &lt; abs(closest-target))
+                closest = sum;
+            }
         }
 
-        return i == n;
+        return closest;
     }
 };
 </code></pre>
@@ -178,9 +199,12 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game">Jump Game</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#16-3sum-closest">16. 3Sum Closest</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#complexity" class="nav-link">Complexity</a>
                 </li>
                 <li class="nav-item">
                     <a href="#code" class="nav-link">Code</a>

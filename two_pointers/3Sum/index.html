@@ -65,6 +65,8 @@
                   
 <a href="./" class="dropdown-item active">15. 3Sum</a>
                   
+<a href="../3Sum_closest/" class="dropdown-item">16. 3Sum Closest</a>
+                  
 <a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
 <a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
@@ -122,6 +124,7 @@
 
 
 <h1 id="15-3sum">15. 3Sum</h1>
+<p><a href="https://leetcode.com/problems/3sum/">Source</a>  </p>
 <p>Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.</p>
 <p>Notice that the solution set <strong>must not contain duplicate triplets.</strong></p>
 <p><strong>Constraints</strong></p>
@@ -132,13 +135,15 @@
 <h2 id="concept">Concept</h2>
 <p><strong>Two Pointers</strong>
 Before using <em>two poiters</em> strategy, we have to <strong>sort the input array first</strong> so that it can be easily to compare.<br />
-The algorithm is:<br />
-* Sort the array
-* Set the <code>target=0-nums[i]</code> because we will check the rest elements to find out if there's a pair which sum equal to target.
-* The key point is to set left pointer <code>l</code> to the next of current digit and set right pointer <code>r</code> to the end of array.
-  * If <code>nums[l]+nums[r] &lt; target</code>, we need to move <code>l</code> to the right by 1.
-  * If <code>nums[l]+nums[r] &gt; target</code>, we need to move <code>r</code> to the left by 1.
-  * If <code>nums[l]+nums[r] == target</code>, it means there's a solution found. Then we iterate moving <code>l</code> or <code>r</code> pointers if its next elements is equal.</p>
+The algorithm is:  </p>
+<ul>
+<li>Sort the array</li>
+<li>Set the <code>target=0-nums[i]</code> because we will check the rest elements to find out if there's a pair which sum equal to target.</li>
+<li>The key point is to set left pointer <code>l</code> to the next of current digit and set right pointer <code>r</code> to the end of array.</li>
+<li>If <code>nums[l]+nums[r] &lt; target</code>, we need to move <code>l</code> to the right by 1.</li>
+<li>If <code>nums[l]+nums[r] &gt; target</code>, we need to move <code>r</code> to the left by 1.</li>
+<li>If <code>nums[l]+nums[r] == target</code>, it means there's a solution found. Then we iterate moving <code>l</code> or <code>r</code> pointers if its next elements is equal.</li>
+</ul>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
 <p>O(n^2): The sorting takes O(nlogn), and the worst case of visiting elements will be O(n^2). So O(nlogn + n^2) will be O(n^2)</p>
