@@ -1,5 +1,7 @@
 # 15. 3Sum
 
+[Source](https://leetcode.com/problems/3sum/)  
+
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
 Notice that the solution set **must not contain duplicate triplets.**
@@ -14,6 +16,7 @@ Notice that the solution set **must not contain duplicate triplets.**
 **Two Pointers**
 Before using *two poiters* strategy, we have to **sort the input array first** so that it can be easily to compare.  
 The algorithm is:  
+
 * Sort the array
 * Set the `target=0-nums[i]` because we will check the rest elements to find out if there's a pair which sum equal to target.
 * The key point is to set left pointer `l` to the next of current digit and set right pointer `r` to the end of array.

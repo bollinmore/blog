@@ -8,6 +8,7 @@ nav:
     - 2. Add Two Numbers: math/add_two_numbers.md
     - 7. Reverse Integer: math/reverse_integer.md
     - 15. 3Sum: two_pointers/3Sum.md
+    - 16. 3Sum Closest: two_pointers/3Sum_closest.md
     - 45. Jump Game II: dp/jump_game2.md
     - 55. Jump Game: dp/jump_game.md
     - 62. Unique Paths: dp/unique_paths.md
