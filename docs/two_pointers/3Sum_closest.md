@@ -28,10 +28,11 @@ This problem is similar to *3 Sum*, so we could solve it with *Two Pointers* str
 
 **Time Complexity**  
 
-O(n^2): 
+O(nlogn + nlogn) = O(nlogn): Where the outer loop has complexity O(n) and inner loop has complexity (logn). The sorting has complexity O(nlogn)
 
 **Space Complexity**  
 
+O(1): Constant memory.
 
 ## Code
 ```c++
