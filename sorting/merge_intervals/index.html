@@ -85,6 +85,8 @@
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
+<a href="../largest_number/" class="dropdown-item">179. Largest Number</a>
+                  
 <a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
                   
 <a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
@@ -145,6 +147,11 @@ Since the intervals is sorted previously which means we could put the first item
 <p>O(nlogn): Assuming the sorting algorithm is O(nlogn). Then the following one pass check(<em>linear scan</em>) has complexity O(n)</p>
 <p><strong>Space Complexity</strong>  </p>
 <p>O(logn): The sorting algorithm might need an extra space.</p>
+<h2 id="special-test-case">Special test case</h2>
+<ul>
+<li>[[1,4],[0,0]]</li>
+<li>[[2,3],[4,5],[6,7],[8,9],[1,10]]</li>
+</ul>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
@@ -195,6 +202,9 @@ public:
                 </li>
                 <li class="nav-item">
                     <a href="#complexity" class="nav-link">Complexity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#special-test-case" class="nav-link">Special test case</a>
                 </li>
                 <li class="nav-item">
                     <a href="#code" class="nav-link">Code</a>
