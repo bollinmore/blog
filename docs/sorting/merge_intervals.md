@@ -26,6 +26,10 @@ O(nlogn): Assuming the sorting algorithm is O(nlogn). Then the following one pas
 
 O(logn): The sorting algorithm might need an extra space.
 
+## Special test case
+* [[1,4],[0,0]]
+* [[2,3],[4,5],[6,7],[8,9],[1,10]]
+
 ## Code
 ```c++
 class Solution {
