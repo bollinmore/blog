@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>7. Reverse Integer - SuperQ</title>
+        <title>56. Merge Intervals - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,11 +57,11 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../two_sum/" class="dropdown-item">1. Two Sum</a>
+<a href="../../math/two_sum/" class="dropdown-item">1. Two Sum</a>
                   
-<a href="../add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
+<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="./" class="dropdown-item active">7. Reverse Integer</a>
+<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
 <a href="../../two_pointers/3Sum/" class="dropdown-item">15. 3Sum</a>
                   
@@ -73,7 +73,7 @@
                   
 <a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../../sorting/merge_intervals/" class="dropdown-item">56. Merge Intervals</a>
+<a href="./" class="dropdown-item active">56. Merge Intervals</a>
                   
 <a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
@@ -85,9 +85,9 @@
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
-<a href="../nim_game/" class="dropdown-item">292. Nim Game</a>
+<a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
                   
-<a href="../third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
+<a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -122,58 +122,44 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">7. Reverse Integer</li>
+    <li class="breadcrumb-item active" aria-current="page">56. Merge Intervals</li>
   </ol>
 </nav>
 
 
-<h1 id="7-reverse-integer">7. Reverse Integer</h1>
-<p><a href="https://leetcode.com/problems/reverse-integer/">Source</a>  </p>
-<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.</p>
-<p>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</p>
+<h1 id="56-merge-intervals">56. Merge Intervals</h1>
+<p><a href="https://leetcode.com/problems/merge-intervals/">Source</a>  </p>
+<p>Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>-231 &lt;= x &lt;= 231 - 1</li>
+<li>1 &lt;= intervals.length &lt;= 104</li>
+<li>intervals[i].length == 2</li>
+<li>0 &lt;= starti &lt;= endi &lt;= 104</li>
 </ul>
 <h2 id="concept">Concept</h2>
-<p>The limitation that you could NOT use a <strong>long</strong> or <strong>long long</strong> to store a temporary data, so we might consider the edge case that could prevent overflow or underflow during checking each digit, the algorithm will be:  </p>
-<ul>
-<li>Detect the input value is negative or not and use a flag to hold it.</li>
-<li>Set the absolute value of <code>x</code> to <code>y</code> to make the codes easy to implement.</li>
-<li>Check the <code>y&gt;0</code> iterately and get remaining <code>r</code>.</li>
-<li>Calculate the temporary answer by <code>v = v*10 +r</code>, but the key point is:</li>
-<li>if <code>v &gt; INT_MAX/10</code>, return 0</li>
-<li>if <code>v == INT_MAX/10 &amp;&amp; r &gt; 7</code>, return 0</li>
-<li>Return the correct answer with previous sign flag.</li>
-</ul>
-<p><strong>Why we need to return 0 in some condition?</strong> It's because any number larger than INT_MAX/10 cannot be multipied by 10 or it would get overflow exception.</p>
+<p>If the source array has been sorted, then we could compare the second value of last item in the output list in one pass.<br />
+So what is <strong>overlap</strong> in this problem? We could define the overlap as <code>intervals[i-1][1] &lt; intervals[i][0]</code>.<br />
+Since the intervals is sorted previously which means we could put the first item to output array and compare next item with output array one by one.</p>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
-<p>O(log(n)): It's roughly equal log 10 (n).</p>
+<p>O(nlogn): Assuming the sorting algorithm is O(nlogn). Then the following one pass check(<em>linear scan</em>) has complexity O(n)</p>
 <p><strong>Space Complexity</strong>  </p>
-<p>O(1)</p>
+<p>O(logn): The sorting algorithm might need an extra space.</p>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    int reverse(int x) {
-        int v=0;
-        int sign = x&gt;=0;
-        int y = abs(x);
+    vector&lt;vector&lt;int&gt;&gt; merge(vector&lt;vector&lt;int&gt;&gt;&amp; intervals) {
+        vector&lt;vector&lt;int&gt;&gt; merged;
+        sort(intervals.begin(), intervals.end()); // Sort by the first element, so we can easily compare the second in one pass
 
-        while (y&gt;0) {
-            int r = y%10;
-
-            if (v &gt; INT_MAX/10) // v &gt;= 214748365
-                return 0;
-
-            if (v==INT_MAX/10 &amp;&amp; r&gt;7) // v &gt;= 214748364 &amp;&amp; r &gt; 7
-                return 0;
-
-            v = v*10 + r;
-            y /= 10;
+        for (auto val : intervals) {
+            if (merged.empty() || merged.back()[1] &lt; val[0]) // Append to list if it's not overlapped.
+                merged.push_back(val);
+            else
+                merged.back()[1] = max(merged.back()[1], val[1]); // If it's overlap, pick max from the two tails.
         }
 
-        return sign ? v : 0-v;
+        return merged;
     }
 };
 </code></pre>
@@ -203,7 +189,7 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#7-reverse-integer">7. Reverse Integer</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#56-merge-intervals">56. Merge Intervals</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept</a>
                 </li>
