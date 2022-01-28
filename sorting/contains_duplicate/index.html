@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>2. Add Two Numbers - SuperQ</title>
+        <title>217. Contains Duplicate - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,11 +57,11 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../two_sum/" class="dropdown-item">1. Two Sum</a>
+<a href="../../math/two_sum/" class="dropdown-item">1. Two Sum</a>
                   
-<a href="./" class="dropdown-item active">2. Add Two Numbers</a>
+<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="../reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
+<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
 <a href="../../two_pointers/3Sum/" class="dropdown-item">15. 3Sum</a>
                   
@@ -73,7 +73,7 @@
                   
 <a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
-<a href="../../sorting/merge_intervals/" class="dropdown-item">56. Merge Intervals</a>
+<a href="../merge_intervals/" class="dropdown-item">56. Merge Intervals</a>
                   
 <a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
@@ -85,15 +85,15 @@
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
-<a href="../../sorting/largest_number/" class="dropdown-item">179. Largest Number</a>
+<a href="../largest_number/" class="dropdown-item">179. Largest Number</a>
                   
-<a href="../../sorting/contains_duplicate/" class="dropdown-item">217. Contains Duplicate</a>
+<a href="./" class="dropdown-item active">217. Contains Duplicate</a>
                   
 <a href="../../hash_table/contains_duplicate2/" class="dropdown-item">219. Contains Duplicate II</a>
                   
-<a href="../nim_game/" class="dropdown-item">292. Nim Game</a>
+<a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
                   
-<a href="../third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
+<a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -128,78 +128,73 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">2. Add Two Numbers</li>
+    <li class="breadcrumb-item active" aria-current="page">217. Contains Duplicate</li>
   </ol>
 </nav>
 
 
-<h1 id="2-add-two-numbers">2. Add Two Numbers</h1>
-<p><a href="https://leetcode.com/problems/add-two-numbers/">Source</a>  </p>
-<p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. <strong>Add the two numbers and return the sum as a linked list.</strong></p>
-<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
-<p><img alt="" src="https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg" /></p>
+<h1 id="_1"></h1>
+<p><a href="https://leetcode.com/problems/contains-duplicate/">Source</a>  </p>
+<p>Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>The number of nodes in each linked list is in the range [1, 100].</li>
-<li>0 &lt;= Node.val &lt;= 9</li>
-<li>It is guaranteed that the list represents a number that does not have leading zeros.</li>
+<li>1 &lt;= nums.length &lt;= 105</li>
+<li>-109 &lt;= nums[i] &lt;= 109</li>
 </ul>
-<h2 id="concept">Concept:</h2>
-<p>Algorithm:  </p>
-<ul>
-<li>Create a dummy node and a pointer <code>curr</code> which point to the dummy node.</li>
-<li>Create a variable <code>carry</code> as a flag to know if there's a carry bit been set.</li>
-<li>Visit l1 &amp; l2 iterately, sum up l1 or l2 if it's not null. <strong>We need to add <code>carry</code> if it present'</strong></li>
-<li>Update the carry flag by set <code>carry=sum/10</code> every time.</li>
-<li>Create a new node with value <code>tmp%10</code> and let <code>curr</code> point to that address.</li>
-<li>Move pointer <code>curr</code> to the next by <code>curr = curr-&gt;next</code></li>
-<li>Repeart until l1 &amp; l2 are visited both.</li>
-<li>Remember to create a new node if the carry flag is set.</li>
-</ul>
+<h2 id="concept">Concept</h2>
+<p>There're serveral method could be used to solve this problem - <em>Sorting</em>, <em>map</em>, <em>set</em>.<br />
+<strong>Sorting</strong><br />
+If we find out a number is equal to its adjacent element, return true immediately.</p>
+<p><strong>map</strong><br />
+Using number as key of map and the occurence as the value, if there's one occurence more than one, we'll return true.</p>
+<p><strong>set</strong><br />
+Using <em>set</em> as container and copy all nodes to that. Comparing the size between these two containers, return true if they're different.</p>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
-<p>O(n): Where n is max(l1.length, l2.length).</p>
+<ul>
+<li>Sorting: O(nlogn)</li>
+<li>Map: O(n)</li>
+<li>Set: (n)</li>
+</ul>
 <p><strong>Space Complexity</strong>  </p>
-<p>O(n): Where n is max(l1.length, l2.length).</p>
-<h2 id="code">Code:</h2>
-<pre><code class="language-c++">/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *p=l1, *q=l2, *dummy, *curr;
-        int carry=0;
-
-        dummy = new ListNode();
-        curr = dummy; // a pointer to the dummy node
-
-        while (p || q) {
-            int tmp = 0 + carry;
-            if (p) tmp += p-&gt;val;
-            if (q) tmp += q-&gt;val;
-
-            carry = tmp/10;
-            curr-&gt;next = new ListNode(tmp%10); // make link to the dummy
-            curr = curr-&gt;next; // move curr pointer to next one
-
-            if (p) p = p-&gt;next;
-            if (q) q = q-&gt;next;
+<ul>
+<li>Sorting: O(logn), the space needed when sorting elements.</li>
+<li>Map: O(n), we'd use as many as the input number when they're all different.</li>
+<li>Set: (n), same as map.</li>
+</ul>
+<h2 id="code">Code</h2>
+<pre><code class="language-c++">  Sort  
+    bool containsDuplicate(vector&lt;int&gt;&amp; nums) {
+        sort(nums.begin(), nums.end());
+        int len = nums.size();
+        for (int i=1; i&lt;len; i++) {
+            if (nums[i-1] == nums[i])
+                return true;
         }
 
-        if (carry) // ethier 0 or 1
-            curr-&gt;next = new ListNode(carry);
-
-        return dummy-&gt;next;
+        return false;
     }
-};
+
+  Set
+    bool containsDuplicate(vector&lt;int&gt;&amp; nums) {
+        set&lt;int&gt; st(nums.begin(), nums.end());
+        return nums.size() &gt; st.size();
+    }
+
+  Map
+    bool containsDuplicate(vector&lt;int&gt;&amp; nums) {
+        map&lt;int, int&gt; mp;
+
+        for (auto n : nums) {
+            mp[n]++;
+        }
+
+        for (auto m : mp) 
+            if (m.second &gt; 1)
+                return true;
+
+        return false;
+    }
 </code></pre>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
@@ -227,15 +222,15 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#2-add-two-numbers">2. Add Two Numbers</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#_1"></a></li>
                 <li class="nav-item">
-                    <a href="#concept" class="nav-link">Concept:</a>
+                    <a href="#concept" class="nav-link">Concept</a>
                 </li>
                 <li class="nav-item">
                     <a href="#complexity" class="nav-link">Complexity</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#code" class="nav-link">Code:</a>
+                    <a href="#code" class="nav-link">Code</a>
                 </li>
         </ul>
     </div>

@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>2. Add Two Numbers - SuperQ</title>
+        <title>219. Contains Duplicate II - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,11 +57,11 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../two_sum/" class="dropdown-item">1. Two Sum</a>
+<a href="../../math/two_sum/" class="dropdown-item">1. Two Sum</a>
                   
-<a href="./" class="dropdown-item active">2. Add Two Numbers</a>
+<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="../reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
+<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
 <a href="../../two_pointers/3Sum/" class="dropdown-item">15. 3Sum</a>
                   
@@ -69,7 +69,7 @@
                   
 <a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
-<a href="../../hash_table/group_anagrams/" class="dropdown-item">49. Group Anagrams</a>
+<a href="../group_anagrams/" class="dropdown-item">49. Group Anagrams</a>
                   
 <a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
@@ -89,11 +89,11 @@
                   
 <a href="../../sorting/contains_duplicate/" class="dropdown-item">217. Contains Duplicate</a>
                   
-<a href="../../hash_table/contains_duplicate2/" class="dropdown-item">219. Contains Duplicate II</a>
+<a href="./" class="dropdown-item active">219. Contains Duplicate II</a>
                   
-<a href="../nim_game/" class="dropdown-item">292. Nim Game</a>
+<a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
                   
-<a href="../third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
+<a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -128,78 +128,70 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">2. Add Two Numbers</li>
+    <li class="breadcrumb-item active" aria-current="page">219. Contains Duplicate II</li>
   </ol>
 </nav>
 
 
-<h1 id="2-add-two-numbers">2. Add Two Numbers</h1>
-<p><a href="https://leetcode.com/problems/add-two-numbers/">Source</a>  </p>
-<p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. <strong>Add the two numbers and return the sum as a linked list.</strong></p>
-<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
-<p><img alt="" src="https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg" /></p>
+<h1 id="219-contains-duplicate-ii">219. Contains Duplicate II</h1>
+<p><a href="https://leetcode.com/problems/contains-duplicate-ii/">Source</a><br />
+<strong>Topic</strong>: Hash Table, Sliding Window</p>
+<p>Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) &lt;= k.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>The number of nodes in each linked list is in the range [1, 100].</li>
-<li>0 &lt;= Node.val &lt;= 9</li>
-<li>It is guaranteed that the list represents a number that does not have leading zeros.</li>
+<li>1 &lt;= nums.length &lt;= 105</li>
+<li>-109 &lt;= nums[i] &lt;= 109</li>
+<li>0 &lt;= k &lt;= 105</li>
 </ul>
-<h2 id="concept">Concept:</h2>
-<p>Algorithm:  </p>
-<ul>
-<li>Create a dummy node and a pointer <code>curr</code> which point to the dummy node.</li>
-<li>Create a variable <code>carry</code> as a flag to know if there's a carry bit been set.</li>
-<li>Visit l1 &amp; l2 iterately, sum up l1 or l2 if it's not null. <strong>We need to add <code>carry</code> if it present'</strong></li>
-<li>Update the carry flag by set <code>carry=sum/10</code> every time.</li>
-<li>Create a new node with value <code>tmp%10</code> and let <code>curr</code> point to that address.</li>
-<li>Move pointer <code>curr</code> to the next by <code>curr = curr-&gt;next</code></li>
-<li>Repeart until l1 &amp; l2 are visited both.</li>
-<li>Remember to create a new node if the carry flag is set.</li>
-</ul>
+<h2 id="concept">Concept</h2>
+<p><strong>Map</strong><br />
+Unlikely to #217, we set the <em>offset</em> as the value rather than occurence, so we can add or update the offset if the key is not exist.<br />
+Otherwise, we can calculate the difference from current index to <code>mp[nums[i]]</code>, and return true if it's less than <code>k</code>.</p>
+<p><strong>Set</strong><br />
+Using <em>set</em> as a container to simulate the sliding window because we only care about those value index <code>i</code> to <code>i-k+1</code>, so the key point is to <strong>erase the out bound value</strong><br />
+by <code>st.erase(nums[i-k-1])</code>. The reason to specify a value with offset <code>i-k-1</code> is because the <em>insert</em> operation will put new value at the front of container, so we can't erase the first.  </p>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
-<p>O(n): Where n is max(l1.length, l2.length).</p>
+<ul>
+<li>Map: O(n)</li>
+<li>Set: O(n), either <code>st.erase</code> &amp; outer loop may take linear time complexity.</li>
+</ul>
 <p><strong>Space Complexity</strong>  </p>
-<p>O(n): Where n is max(l1.length, l2.length).</p>
-<h2 id="code">Code:</h2>
-<pre><code class="language-c++">/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-class Solution {
-public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *p=l1, *q=l2, *dummy, *curr;
-        int carry=0;
+<ul>
+<li>Map: O(n)</li>
+<li>Set: O(n)</li>
+</ul>
+<h2 id="special-test-case">Special test case</h2>
+<h2 id="code">Code</h2>
+<pre><code class="language-c++">  Map
+    bool containsNearbyDuplicate(vector&lt;int&gt;&amp; nums, int k) {
+        map&lt;int, int&gt; mp;
+        int len = nums.size();
 
-        dummy = new ListNode();
-        curr = dummy; // a pointer to the dummy node
-
-        while (p || q) {
-            int tmp = 0 + carry;
-            if (p) tmp += p-&gt;val;
-            if (q) tmp += q-&gt;val;
-
-            carry = tmp/10;
-            curr-&gt;next = new ListNode(tmp%10); // make link to the dummy
-            curr = curr-&gt;next; // move curr pointer to next one
-
-            if (p) p = p-&gt;next;
-            if (q) q = q-&gt;next;
+        for (int i=0; i&lt;len; i++) {
+            int v = nums[i];
+            if (!mp.count(v) || i-mp[v]&gt;k)
+                mp[nums[i]] = i;
+            else 
+                return true;
         }
 
-        if (carry) // ethier 0 or 1
-            curr-&gt;next = new ListNode(carry);
-
-        return dummy-&gt;next;
+        return false;
     }
-};
+
+  Set
+    bool containsNearbyDuplicate(vector&lt;int&gt;&amp; nums, int k) {
+        int len = nums.size();
+        unordered_set&lt;int&gt; st;
+
+        for (int i=0; i&lt;len; i++) {
+            if (i&gt;k) st.erase(nums[i-k-1]);
+            if (st.find(nums[i]) != st.end()) return true;
+            st.insert(nums[i]);
+        }
+
+        return false;
+    }
 </code></pre>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
@@ -227,15 +219,18 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#2-add-two-numbers">2. Add Two Numbers</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#219-contains-duplicate-ii">219. Contains Duplicate II</a></li>
                 <li class="nav-item">
-                    <a href="#concept" class="nav-link">Concept:</a>
+                    <a href="#concept" class="nav-link">Concept</a>
                 </li>
                 <li class="nav-item">
                     <a href="#complexity" class="nav-link">Complexity</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#code" class="nav-link">Code:</a>
+                    <a href="#special-test-case" class="nav-link">Special test case</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#code" class="nav-link">Code</a>
                 </li>
         </ul>
     </div>
