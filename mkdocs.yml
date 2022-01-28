@@ -19,6 +19,8 @@ nav:
     - 142. Linked List Cycle II: dp/linked_list_cycle2.md
     - 134. Gas Station: array/gas_station.md
     - 179. Largest Number: sorting/largest_number.md
+    - 217. Contains Duplicate: sorting/contains_duplicate.md
+    - 219. Contains Duplicate II: hash_table/contains_duplicate2.md
     - 292. Nim Game: math/nim_game.md
     - 414. Third Maximum Number: math/third_maximum_number.md
   - Code Snippet:
