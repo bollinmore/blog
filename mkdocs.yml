@@ -6,6 +6,7 @@ nav:
   - Leet Code:
     - 1. Two Sum: math/two_sum.md
     - 2. Add Two Numbers: math/add_two_numbers.md
+    - 6. Zigzag Conversion: string/zigzag_conversion.md
     - 7. Reverse Integer: math/reverse_integer.md
     - 15. 3Sum: two_pointers/3Sum.md
     - 16. 3Sum Closest: two_pointers/3Sum_closest.md
