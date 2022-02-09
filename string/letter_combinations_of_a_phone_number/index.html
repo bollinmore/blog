@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>45. Jump Game II - SuperQ</title>
+        <title>17. Letter Combinations of a Phone Number - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -61,7 +61,7 @@
                   
 <a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
-<a href="../../string/zigzag_conversion/" class="dropdown-item">6. Zigzag Conversion</a>
+<a href="../zigzag_conversion/" class="dropdown-item">6. Zigzag Conversion</a>
                   
 <a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
@@ -69,23 +69,23 @@
                   
 <a href="../../two_pointers/3Sum_closest/" class="dropdown-item">16. 3Sum Closest</a>
                   
-<a href="../../string/letter_combinations_of_a_phone_number/" class="dropdown-item">17. Letter Combinations of a Phone Number</a>
+<a href="./" class="dropdown-item active">17. Letter Combinations of a Phone Number</a>
                   
-<a href="./" class="dropdown-item active">45. Jump Game II</a>
+<a href="../../dp/jump_game2/" class="dropdown-item">45. Jump Game II</a>
                   
 <a href="../../hash_table/group_anagrams/" class="dropdown-item">49. Group Anagrams</a>
                   
-<a href="../jump_game/" class="dropdown-item">55. Jump Game</a>
+<a href="../../dp/jump_game/" class="dropdown-item">55. Jump Game</a>
                   
 <a href="../../sorting/merge_intervals/" class="dropdown-item">56. Merge Intervals</a>
                   
-<a href="../unique_paths/" class="dropdown-item">62. Unique Paths</a>
+<a href="../../dp/unique_paths/" class="dropdown-item">62. Unique Paths</a>
                   
-<a href="../minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
+<a href="../../dp/minimum_path_sum/" class="dropdown-item">64. Minimum Path Sum</a>
                   
-<a href="../unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
+<a href="../../dp/unique_binary_search_trees/" class="dropdown-item">96. Unique Binary Search Trees</a>
                   
-<a href="../linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
+<a href="../../dp/linked_list_cycle2/" class="dropdown-item">142. Linked List Cycle II</a>
                   
 <a href="../../array/gas_station/" class="dropdown-item">134. Gas Station</a>
                   
@@ -132,25 +132,57 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">45. Jump Game II</li>
+    <li class="breadcrumb-item active" aria-current="page">17. Letter Combinations of a Phone Number</li>
   </ol>
 </nav>
 
 
-<h1 id="jump-game-ii">Jump Game II</h1>
-<p><a href="https://leetcode.com/problems/jump-game-ii/">Source</a>  </p>
-<p>Given an array of non-negative integers nums, you are initially positioned at the first index of the array.<br />
-Each element in the array represents your maximum jump length at that position.<br />
-Your goal is to reach the last index in the minimum number of jumps.<br />
-You can assume that you can always reach the last index.  </p>
+<h1 id="17-letter-combinations-of-a-phone-number">17. Letter Combinations of a Phone Number</h1>
+<p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">Source</a><br />
+<strong>Topic</strong>: </p>
+<p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.</p>
+<p>A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+<p><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Telephone-keypad2.svg/200px-Telephone-keypad2.svg.png" /></p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>0 &lt;= nums[i] &lt;= 1000</li>
+<li>0 &lt;= digits.length &lt;= 4</li>
+<li>digits[i] is a digit in the range ['2', '9'].</li>
 </ul>
-<h2 id="concept">Concept:</h2>
-<h2 id="code">Code:</h2>
-<pre><code class="language-c++">
+<h2 id="concept">Concept</h2>
+<p>We need a vector to store the letter, and the output array will be initialized to ""(<code>vector&lt;string&gt; out(1, "")</code>). The answer comes after the following steps:  </p>
+<ol>
+<li>Iterate the input string <code>digits</code></li>
+<li>For every digit which we are visiting, then enumerate letters regarding current digit.</li>
+<li>Combine the string separately with current letter.</li>
+<li>Using <code>assign()</code> or <code>swap()</code> to change the content of output buffer. </li>
+</ol>
+<h2 id="complexity">Complexity</h2>
+<p><strong>Time Complexity</strong>  </p>
+<p>O(4^n): n is the length of digits</p>
+<p><strong>Space Complexity</strong>  </p>
+<h2 id="special-test-case">Special test case</h2>
+<h2 id="code">Code</h2>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;string&gt; letterCombinations(string digits) {
+        if (digits.empty()) return {};
+        vector&lt;string&gt; ss = {&quot;&quot;, &quot;&quot;, &quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;};
+        vector&lt;string&gt; out(1, &quot;&quot;); // Key point, need to initialze as &quot;&quot;
+
+        for (auto d : digits) {
+            vector&lt;string&gt; vx;
+            for (auto c : ss[d - '0']) { // Relative offset to '0'
+                for (auto o : out) { // Because we've initialized to &quot;&quot;, so there will &quot;&quot; + &quot;a&quot;...
+                    vx.push_back(o+c);
+                }
+            }
+            // out.assign(vx.begin(), vx.end());
+            out.swap(vx); // This should be constant time.
+        }
+
+        return out;
+    }
+};
 </code></pre>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
@@ -178,12 +210,18 @@ You can assume that you can always reach the last index.  </p>
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#jump-game-ii">Jump Game II</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#17-letter-combinations-of-a-phone-number">17. Letter Combinations of a Phone Number</a></li>
                 <li class="nav-item">
-                    <a href="#concept" class="nav-link">Concept:</a>
+                    <a href="#concept" class="nav-link">Concept</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#code" class="nav-link">Code:</a>
+                    <a href="#complexity" class="nav-link">Complexity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#special-test-case" class="nav-link">Special test case</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#code" class="nav-link">Code</a>
                 </li>
         </ul>
     </div>
