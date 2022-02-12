@@ -14,7 +14,7 @@
         <meta name="author" content="Alvin Chen <bollinmore@gmail.com>">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>414. Third Maximum Number - SuperQ</title>
+        <title>424. Longest Repeating Character Replacement - SuperQ</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../css/font-awesome.min.css" rel="stylesheet">
     <link href="../../css/base.css" rel="stylesheet">
@@ -57,13 +57,13 @@
                 <a href="#" role="button" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="nav-dropdown-Leet Code">Leet Code <b class="caret"></b></a>
                 <div class="dropdown-menu" aria-labelledby="nav-dropdown-Leet Code">
                   
-<a href="../two_sum/" class="dropdown-item">1. Two Sum</a>
+<a href="../../math/two_sum/" class="dropdown-item">1. Two Sum</a>
                   
-<a href="../add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
+<a href="../../math/add_two_numbers/" class="dropdown-item">2. Add Two Numbers</a>
                   
 <a href="../../string/zigzag_conversion/" class="dropdown-item">6. Zigzag Conversion</a>
                   
-<a href="../reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
+<a href="../../math/reverse_integer/" class="dropdown-item">7. Reverse Integer</a>
                   
 <a href="../../two_pointers/3Sum/" class="dropdown-item">15. 3Sum</a>
                   
@@ -95,11 +95,11 @@
                   
 <a href="../../hash_table/contains_duplicate2/" class="dropdown-item">219. Contains Duplicate II</a>
                   
-<a href="../nim_game/" class="dropdown-item">292. Nim Game</a>
+<a href="../../math/nim_game/" class="dropdown-item">292. Nim Game</a>
                   
-<a href="./" class="dropdown-item active">414. Third Maximum Number</a>
+<a href="../../math/third_maximum_number/" class="dropdown-item">414. Third Maximum Number</a>
                   
-<a href="../../sliding_window/longest_repeating_character_replacement/" class="dropdown-item">424. Longest Repeating Character Replacement</a>
+<a href="./" class="dropdown-item active">424. Longest Repeating Character Replacement</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -134,53 +134,62 @@
     <li class="breadcrumb-item">Leet Code</li>
     
     
-    <li class="breadcrumb-item active" aria-current="page">414. Third Maximum Number</li>
+    <li class="breadcrumb-item active" aria-current="page">424. Longest Repeating Character Replacement</li>
   </ol>
 </nav>
 
 
-<h1 id="414-third-maximum-number">414. Third Maximum Number</h1>
-<p><a href="https://leetcode.com/problems/third-maximum-number/">Source</a>  </p>
-<p>Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.</p>
-<p><strong>Follow up: Can you find an O(n) solution?</strong></p>
+<h1 id="424-longest-repeating-character-replacement">424. Longest Repeating Character Replacement</h1>
+<p><a href="https://leetcode.com/problems/longest-repeating-character-replacement/">Source</a><br />
+<strong>Topic</strong>: Sliding Window, Hash Table, String</p>
+<p>You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.</p>
+<p>Return the length of the longest substring containing the same letter you can get after performing the above operations.</p>
 <p><strong>Constraints</strong></p>
 <ul>
-<li>1 &lt;= nums.length &lt;= 104</li>
-<li>-231 &lt;= nums[i] &lt;= 231 - 1</li>
+<li>1 &lt;= s.length &lt;= 105</li>
+<li>s consists of only uppercase English letters.</li>
+<li>0 &lt;= k &lt;= s.length</li>
 </ul>
 <h2 id="concept">Concept</h2>
-<p>The idea is to find out the top three numbers in one pass algorithm, but we need to take care of the 3rd largest number might <strong>INT_MIN</strong>.<br />
-So we use <code>long long</code> as the data type of a vector, and intialize its data to <code>LLONG_MIN</code>.  </p>
-<ul>
-<li>Create a vector <code>vector&lt;long long&gt; vx(3, LLONG_MIN)</code></li>
-<li>Iterately compare the number between <code>nums</code> and <code>vx</code></li>
-<li>We need to keep the order inside <code>vx</code> if we find a number is larger than any digit in <code>vx</code></li>
-<li>Since we initialized data to LLONG_MIN previosuly, so we can return <code>vx[0]</code>(max) if <code>vx[2]</code> is LLONG_MIN which means there's no 3rd biggest number exist.</li>
-</ul>
+<p><strong>Sliding Window</strong><br />
+We use <code>l</code> &amp; <code>r</code> as the bound of a window, the main idea is to check if <em>Window_Size - the number of majority &lt;= k</em>, why?<br />
+Since there's only <code>k</code> chances that we can replace characters, so a valid window will have the number which less than k for replacement.<br />
+How do we find the maxmimum lenght of a repeating string? Use a variable <code>res</code> to keep track of the max value and update the result only when a valid window size is more than <code>res</code>.</p>
 <h2 id="complexity">Complexity</h2>
 <p><strong>Time Complexity</strong>  </p>
-<p>O(n)</p>
+<p>O(n): n is equal to string length.</p>
 <p><strong>Space Complexity</strong>  </p>
-<p>O(1)</p>
+<p>O(1): the worst case will be n=26 becasue there're 26 distinct characters in the string.</p>
+<h2 id="special-test-case">Special test case</h2>
 <h2 id="code">Code</h2>
 <pre><code class="language-c++">class Solution {
 public:
-    int thirdMax(vector&lt;int&gt;&amp; nums) {
-        vector&lt;long long&gt; vx(3, LLONG_MIN);
+    static bool compare(const pair&lt;char, int&gt;&amp; a, const pair&lt;char, int&gt;&amp; b){
+        return a.second &lt;= b.second;
+    }
 
-        for (int i=0; i&lt;nums.size(); i++) {
-            if (find(vx.begin(), vx.end(), nums[i]) != vx.end())
-                continue;
+    int characterReplacement(string s, int k) {
+        int l=0, r=0, res=0;
+        map&lt;char, int&gt; m; // key: character, value: frequency
+        int maxf=0;
 
-            if (nums[i] &gt; vx[0])
-                vx = {nums[i], vx[0], vx[1]};
-            else if (nums[i] &gt; vx[1])
-                vx = {vx[0], nums[i], vx[1]};
-            else if (nums[i] &gt; vx[2])
-                vx = {vx[0], vx[1], nums[i]};
+        for (auto c : s) {
+            int winLen = r-l+1;
+            m[c]++;
+            maxf = max(maxf, m[c]);
+
+            // while (winLen - max_element(m.begin(), m.end(), compare)-&gt;second &gt; k) {
+            while (winLen - maxf &gt; k) { // Use maxf instead of searching from map
+                m[s[l]]--;
+                l++;
+                winLen = r-l+1;
+            }
+
+            res = max(res, winLen);
+            r++;
         }
 
-        return vx[2]==LLONG_MIN ? vx[0] : vx[2];
+        return res;
     }
 };
 </code></pre>
@@ -210,12 +219,15 @@ public:
 
     <div id="toc-collapse" class="navbar-collapse collapse card">
         <ul class="nav flex-column bs-sidenav">
-            <li class="nav-item main"><a class="nav-link" href="#414-third-maximum-number">414. Third Maximum Number</a></li>
+            <li class="nav-item main"><a class="nav-link" href="#424-longest-repeating-character-replacement">424. Longest Repeating Character Replacement</a></li>
                 <li class="nav-item">
                     <a href="#concept" class="nav-link">Concept</a>
                 </li>
                 <li class="nav-item">
                     <a href="#complexity" class="nav-link">Complexity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#special-test-case" class="nav-link">Special test case</a>
                 </li>
                 <li class="nav-item">
                     <a href="#code" class="nav-link">Code</a>
