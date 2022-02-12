@@ -25,6 +25,7 @@ nav:
     - 219. Contains Duplicate II: hash_table/contains_duplicate2.md
     - 292. Nim Game: math/nim_game.md
     - 414. Third Maximum Number: math/third_maximum_number.md
+    - 424. Longest Repeating Character Replacement: sliding_window/longest_repeating_character_replacement.md
   - Code Snippet:
     - Generate random negative integer: snippet/random_negative_int.md
 
