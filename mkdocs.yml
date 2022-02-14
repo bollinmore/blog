@@ -27,6 +27,7 @@ nav:
     - 374. Guess Number Higher or Lower: binary_search/guess_number_higher_or_lower.md
     - 414. Third Maximum Number: math/third_maximum_number.md
     - 424. Longest Repeating Character Replacement: sliding_window/longest_repeating_character_replacement.md
+    - 724. Find Pivot Index: array/find_pivot_index.md
   - Code Snippet:
     - Generate random negative integer: snippet/random_negative_int.md
 
