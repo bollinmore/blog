@@ -34,3 +34,4 @@ nav:
 
 theme:
     name: bootstrap4
+    custom_dir: custom_theme/
